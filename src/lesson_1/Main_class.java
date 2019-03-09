@@ -1,9 +1,6 @@
 package lesson_1;
 
 public class Main_class {
-<<<<<<< HEAD
-    // Homework lesson 1
-=======
 
     public static void main(String[] args) {
 
@@ -52,5 +49,4 @@ public class Main_class {
     public static String isYearLeap(int year) {
         return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) ? year + " год - високосный" : year + " год - не високосный";
     }
->>>>>>> feature/lesson_1
 }
