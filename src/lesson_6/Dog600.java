@@ -1,10 +1,9 @@
 package lesson_6;
 
-public class Cat extends Animal {
-
+public class Dog600 extends Animal{
     @Override
     public boolean run(int lengthRun) {
-        int MAX_LENGTH = 200;
+        int MAX_LENGTH = 600;
         boolean flag = false;
         if (lengthRun < MAX_LENGTH && lengthRun > 0) {
             flag = true;
@@ -17,10 +16,15 @@ public class Cat extends Animal {
 
     @Override
     public boolean swim(int lengthSwim) {
-        System.out.println();
+        int MAX_LENGTH = 10;
         boolean flag = false;
-        System.out.print("swim: " + flag);
-        return flag;
+        if (lengthSwim < MAX_LENGTH && lengthSwim > 0) {
+            flag = true;
+            System.out.print("run: " + flag);
+            return flag;
+        }
+        System.out.print("run: " + flag);
+        return false;
     }
 
     @Override
@@ -36,4 +40,5 @@ public class Cat extends Animal {
         System.out.print("(double) jump: " + flag);
         return false;
     }
+
 }
