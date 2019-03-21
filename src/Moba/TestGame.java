@@ -13,6 +13,8 @@ public class TestGame {
     static int countKillCommandTwo = 0;
     static int countHealCommandTwo = 0;
     static int MAX_NUM_FIGHTERS = 3;
+    static int sumHealthCommandOne = 0;
+    static int sumHealthCommandTwo = 0;
 
     static Hero[] commandOne = new Hero[MAX_NUM_FIGHTERS];
     static Hero[] commandTwo = new Hero[MAX_NUM_FIGHTERS];
@@ -22,64 +24,49 @@ public class TestGame {
 
         // Инициализация команды №1:
         setCommand(1);
-        int sumHealthCommandOne = 0;
-        System.out.println("Команда №1:");
-        for (int i = 0; i < commandOne.length; i++) {
-            commandOne[i].info();
-            sumHealthCommandOne += commandOne[i].health;
-        }
-        System.out.println("В команде №1 воинов: " + countWarCommandOne +
-                ", убийц: " + countKillCommandOne + ", целителей: " + countHealCommandOne +
-                ". Общее количество очков здоровья на команду: " + sumHealthCommandOne);
-
         // Инициализация команды №2:
         setCommand(2);
-        int sumHealthCommandTwo = 0;
-        System.out.println("Команда №2:");
-        for (int i = 0; i < commandTwo.length; i++) {
-            commandTwo[i].info();
-            sumHealthCommandTwo += commandTwo[i].health;
-        }
-        System.out.println("В команде №2 воинов: " + countWarCommandTwo +
-                ", убийц: " + countKillCommandTwo + ", целителей: " + countHealCommandTwo +
-                ". Общее количество очков здоровья на команду: " + sumHealthCommandTwo);
-//        h1.info();
-//        h2.info();
-//
-//        h1.hit(h2);
-//
-//        h1.info();
-//        h2.info();
-
-//        do {
-////            int MAX_DAMAGE_COMMAND_ONE;
-////            int MIN_HEALTH_COMMAND_ONE;
-////            for (int i = 0; i < MAX_NUM_FIGHTERS-1; i++) {
-////                if (commandOne[i].damage>commandOne[i+1].damage){
-////                    MAX_DAMAGE_COMMAND_ONE=commandOne[i].damage;
-////                }
-////                if (commandOne[i].health<commandOne[i+1].health){
-////                    MIN_HEALTH_COMMAND_ONE=commandOne[i].health;
-////                }
-////            }
-//
-//        } while (sumHealthCommandTwo > 0 || sumHealthCommandOne > 0);
-        for (int i = 0; i < MAX_NUM_FIGHTERS; i++) {
-            if (commandOne[i] instanceof Healer) {
-                commandOne[i].healing(commandOne[i]);
+        do {
+//            int MAX_DAMAGE_COMMAND_ONE;
+//            int MIN_HEALTH_COMMAND_ONE;
+//            for (int i = 0; i < MAX_NUM_FIGHTERS-1; i++) {
+//                if (commandOne[i].damage>commandOne[i+1].damage){
+//                    MAX_DAMAGE_COMMAND_ONE=commandOne[i].damage;
+//                }
+//                if (commandOne[i].health<commandOne[i+1].health){
+//                    MIN_HEALTH_COMMAND_ONE=commandOne[i].health;
+//                }
+//            }
+            for (int i = 0; i < MAX_NUM_FIGHTERS; i++) {
+                if (commandOne[i] instanceof Healer) {
+                    commandOne[i].healing(commandOne[i]);
+                }
+                if (commandTwo[i] instanceof Healer) {
+                    commandTwo[i].healing(commandTwo[i]);
+                }
+                commandOne[i].hit(commandTwo[i]);
+                commandTwo[i].hit(commandOne[i]);
+                sumHealthCommandOne = 0;
+                for (int j = 0; j < commandOne.length; j++) {
+                    commandOne[j].info();
+                    sumHealthCommandOne += commandOne[j].health;
+                }
+                sumHealthCommandTwo = 0;
+                for (int j = 0; j < commandTwo.length; j++) {
+                    commandTwo[j].info();
+                    sumHealthCommandTwo += commandTwo[j].health;
+                }
+                System.out.println(sumHealthCommandOne + "    " + sumHealthCommandTwo);
+                if (commandOne[i].health < 0 || commandTwo[i].health < 0)
+                    break;
             }
-            commandOne[i].hit(commandTwo[i]);
-            commandTwo[i].hit(commandOne[i]);
-            commandOne[i].info();
-            commandTwo[i].info();
-            if (commandOne[i].health<0||commandTwo[i].health<0)
-                break;
-            System.out.println(sumHealthCommandOne + "    " + sumHealthCommandTwo);
-        }
+        } while (sumHealthCommandTwo > 0 && sumHealthCommandOne > 0);
+        if (sumHealthCommandOne > sumHealthCommandTwo) System.out.println("Победа у команды №1");
+        else System.out.println("Победа у команды №2");
     }
 
     public static void setCommand(int numOfCommand) {
-        if (numOfCommand==1){
+        if (numOfCommand == 1) {
             for (int i = 0; i < commandOne.length; i++) {
                 int chooseWarrior = rand.nextInt(MAX_NUM_FIGHTERS);
                 switch (chooseWarrior) {
@@ -97,8 +84,17 @@ public class TestGame {
                         break;
                 }
             }
+            sumHealthCommandOne = 0;
+            System.out.println("Команда №1:");
+            for (int i = 0; i < commandOne.length; i++) {
+                commandOne[i].info();
+                sumHealthCommandOne += commandOne[i].health;
+            }
+            System.out.println("В команде №1 воинов: " + countWarCommandOne +
+                    ", убийц: " + countKillCommandOne + ", целителей: " + countHealCommandOne +
+                    ". Общее количество очков здоровья на команду: " + sumHealthCommandOne);
         }
-        if (numOfCommand==2){
+        if (numOfCommand == 2) {
             for (int i = 0; i < commandTwo.length; i++) {
                 int chooseWarrior = rand.nextInt(MAX_NUM_FIGHTERS);
                 switch (chooseWarrior) {
@@ -116,6 +112,16 @@ public class TestGame {
                         break;
                 }
             }
+            sumHealthCommandTwo = 0;
+            System.out.println("Команда №2:");
+            for (int i = 0; i < commandTwo.length; i++) {
+                commandTwo[i].info();
+                sumHealthCommandTwo += commandTwo[i].health;
+            }
+            System.out.println("В команде №2 воинов: " + countWarCommandTwo +
+                    ", убийц: " + countKillCommandTwo + ", целителей: " + countHealCommandTwo +
+                    ". Общее количество очков здоровья на команду: " + sumHealthCommandTwo);
         }
     }
+
 }
