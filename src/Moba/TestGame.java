@@ -21,7 +21,7 @@ public class TestGame {
 
 
         // Инициализация команды №1:
-        setCommand();
+        setCommand(1);
         int sumHealthCommandOne = 0;
         System.out.println("Команда №1:");
         for (int i = 0; i < commandOne.length; i++) {
@@ -33,7 +33,7 @@ public class TestGame {
                 ". Общее количество очков здоровья на команду: " + sumHealthCommandOne);
 
         // Инициализация команды №2:
-        setCommand();
+        setCommand(2);
         int sumHealthCommandTwo = 0;
         System.out.println("Команда №2:");
         for (int i = 0; i < commandTwo.length; i++) {
@@ -62,41 +62,59 @@ public class TestGame {
 ////                    MIN_HEALTH_COMMAND_ONE=commandOne[i].health;
 ////                }
 ////            }
-//            for (int i = 0; i < MAX_NUM_FIGHTERS; i++) {
-//                if (commandOne[i] instanceof Healer) {
-//                    commandOne[i].healing(commandOne[i]);
-//                }
-//                commandOne[i].hit(commandTwo[i]);
-//                commandTwo[i].hit(commandOne[i]);
-//                commandOne[i].info();
-//                commandTwo[i].info();
-//                System.out.println(sumHealthCommandOne + "    " + sumHealthCommandTwo);
-//            }
+//
 //        } while (sumHealthCommandTwo > 0 || sumHealthCommandOne > 0);
+        for (int i = 0; i < MAX_NUM_FIGHTERS; i++) {
+            if (commandOne[i] instanceof Healer) {
+                commandOne[i].healing(commandOne[i]);
+            }
+            commandOne[i].hit(commandTwo[i]);
+            commandTwo[i].hit(commandOne[i]);
+            commandOne[i].info();
+            commandTwo[i].info();
+            if (commandOne[i].health<0||commandTwo[i].health<0)
+                break;
+            System.out.println(sumHealthCommandOne + "    " + sumHealthCommandTwo);
+        }
     }
 
-    public static void setCommand() {
-        for (int i = 0; i < commandOne.length; i++) {
-            int chooseWarrior = rand.nextInt(3);
-            switch (chooseWarrior) {
-                case (0):
-                    commandOne[i] = new Warrior(150, "war 1", 50);
-                    countWarCommandOne++;   // Увеличивем счетчик воинов в команде №1
-                    commandTwo[i] = new Warrior(150, "war 1", 50);
-                    countWarCommandTwo++;   // Увеличивем счетчик воинов в команде №2
-                    break;
-                case (1):
-                    commandOne[i] = new Killer(110, "kill 1", 80);
-                    countKillCommandOne++;  // Увеличивем счетчик убийц в команде №1
-                    commandTwo[i] = new Killer(110, "kill 1", 80);
-                    countKillCommandTwo++;  // Увеличивем счетчик убийц в команде №2
-                    break;
-                case (2):
-                    commandOne[i] = new Healer(90, "heal 1", 30, 20);
-                    countHealCommandOne++;  // Увеличивем счетчик хилеров в команде №1
-                    commandTwo[i] = new Healer(90, "heal 1", 30, 20);
-                    countHealCommandTwo++;  // Увеличивем счетчик хилеров в команде №2
-                    break;
+    public static void setCommand(int numOfCommand) {
+        if (numOfCommand==1){
+            for (int i = 0; i < commandOne.length; i++) {
+                int chooseWarrior = rand.nextInt(MAX_NUM_FIGHTERS);
+                switch (chooseWarrior) {
+                    case (0):
+                        commandOne[i] = new Warrior(150, "war 1", 50);
+                        countWarCommandOne++;   // Увеличивем счетчик воинов в команде №1
+                        break;
+                    case (1):
+                        commandOne[i] = new Killer(110, "kill 1", 80);
+                        countKillCommandOne++;  // Увеличивем счетчик убийц в команде №1
+                        break;
+                    case (2):
+                        commandOne[i] = new Healer(90, "heal 1", 30, 20);
+                        countHealCommandOne++;  // Увеличивем счетчик хилеров в команде №1
+                        break;
+                }
+            }
+        }
+        if (numOfCommand==2){
+            for (int i = 0; i < commandTwo.length; i++) {
+                int chooseWarrior = rand.nextInt(MAX_NUM_FIGHTERS);
+                switch (chooseWarrior) {
+                    case (0):
+                        commandTwo[i] = new Warrior(150, "war 2", 50);
+                        countWarCommandTwo++;   // Увеличивем счетчик воинов в команде №2
+                        break;
+                    case (1):
+                        commandTwo[i] = new Killer(110, "kill 2", 80);
+                        countKillCommandTwo++;  // Увеличивем счетчик убийц в команде №2
+                        break;
+                    case (2):
+                        commandTwo[i] = new Healer(90, "heal 2", 30, 20);
+                        countHealCommandTwo++;  // Увеличивем счетчик хилеров в команде №2
+                        break;
+                }
             }
         }
     }
